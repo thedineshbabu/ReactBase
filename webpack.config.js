@@ -27,6 +27,6 @@ module.exports = {
   plugins: [htmlPlugin],
   output: {
     filename: "app.bundle.js",
-    path: path.resolve(__dirname, "public/dist"),
+    path: path.resolve(__dirname, "public"),
   },
 };
