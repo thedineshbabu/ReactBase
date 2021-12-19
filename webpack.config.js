@@ -1,3 +1,6 @@
+
+   
+const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const htmlPlugin = new HtmlWebPackPlugin({
   template: "./public/index.html",
@@ -22,4 +25,8 @@ module.exports = {
     ],
   },
   plugins: [htmlPlugin],
+  output: {
+    filename: "app.bundle.js",
+    path: path.resolve(__dirname, "public/dist"),
+  },
 };
