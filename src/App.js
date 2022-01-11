@@ -1,12 +1,13 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import reactDom from "react-dom";
+import "./App.css";
 
 const App = () => {
-    return (
-        <div className='container'>
-            <h1>React App</h1>
-        </div>
-    )
-}
+  return (
+    <div className="container">
+      <h1>React App Base</h1>
+    </div>
+  );
+};
 
-export default App
+reactDom.render(<App />, document.getElementById("root"));

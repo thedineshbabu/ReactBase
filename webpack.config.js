@@ -1,14 +1,19 @@
-
-   
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-const htmlPlugin = new HtmlWebPackPlugin({
-  template: "./public/index.html",
-  filename: "./index.html",
-});
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
+
+const deps = require("./package.json").dependencies;
 
 module.exports = {
   mode: "development",
+  resolve: {
+    extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
+  },
+
+  devServer: {
+    port: 3000,
+    historyApiFallback: true,
+  },
   module: {
     rules: [
       {
@@ -24,9 +29,29 @@ module.exports = {
       },
     ],
   },
-  plugins: [htmlPlugin],
+  plugins: [
+    new ModuleFederationPlugin({
+      name: "reactbase",
+      filename: "remoteEntry.js",
+      remotes: {},
+      exposes: {},
+      shared: {
+        ...deps,
+        react: {
+          singleton: true,
+          requiredVersion: deps.react,
+        },
+        "react-dom": {
+          singleton: true,
+          requiredVersion: deps["react-dom"],
+        },
+      },
+    }),
+    new HtmlWebPackPlugin({
+      template: "public/index.html",
+    }),
+  ],
   output: {
-    filename: "app.bundle.js",
-    path: path.resolve(__dirname, "public"),
+    publicPath: "http://localhost:3000/",
   },
 };
